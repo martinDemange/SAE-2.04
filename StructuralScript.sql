@@ -3,7 +3,13 @@
 //////////////////////////////CREATION DES TABLES//////////////////////////////
 -------------------------------------------------------------------------------
 */
+/*
+PROPRIO (PK_IdP, Nom, Prénom)
+ESPACE (PK_IdE, Designation, Superficie, IdERattach#)
+BIEN (PK_IdEBien#, Categorie, Type, IdP#, Ville, Prix)
 
+# THE # AFTER THE NAME OF THE ATTRIBUTE MEAN FOREIGN KEY
+*/
 CREATE TABLE PROPRIO (
     IDP NUMBER(6),
     NOM VARCHAR2(20),

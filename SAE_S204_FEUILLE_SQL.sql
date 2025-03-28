@@ -65,6 +65,12 @@ WHERE b.IdP IN (
 )
 GROUP BY b.IdP, p.Nom, p.Prénom;
 
+/*Q9*/
+/* Quels sont les biens (identifiant) ayant la terrasse (désignation)
+la plus grande ? */
+
+
+
 /* Q10 */
 /* Quels sont les propriétaires (identifiant) ayant des biens dans les mêmes 
 catégories que les biens du propriétaire 105.*/

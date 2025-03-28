@@ -66,3 +66,13 @@ WHERE b.IdP IN (
 GROUP BY b.IdP, p.Nom, p.Prénom;
 
 
+--Q11
+/* Pour les différents biens, donnez l’écart entre leur prix et le prix minimal proposé dans
+leur catégorie. */
+CREATE OR REPLACE VIEW V11 (CATEGORIE, PRIXMIN ) AS
+SELECT CATEGORIE, MIN(PRIX)
+FROM BIEN
+GROUP BY CATEGORIE;
+
+--SELECT IDEBIEN, CATEGORIE, TYPE, PRIX
+

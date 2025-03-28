@@ -65,11 +65,54 @@ WHERE b.IdP IN (
 )
 GROUP BY b.IdP, p.Nom, p.Prénom;
 
+--Q8 
+
+WITH TotalCategories AS (
+    SELECT COUNT(DISTINCT Categorie) AS Total
+    FROM BIEN
+)
+SELECT 
+    p.IdP, 
+    p.Nom, 
+    p.Prénom
+FROM 
+    PROPRIO p
+JOIN 
+    BIEN b ON p.IdP = b.IdP#
+GROUP BY 
+    p.IdP, p.Nom, p.Prénom
+HAVING 
+    COUNT(DISTINCT b.Categorie) = (SELECT Total FROM TotalCategories);
+
 /*Q9*/
 /* Quels sont les biens (identifiant) ayant la terrasse (désignation)
 la plus grande ? */
 
+--Q9 
 
+WITH Terrasses AS (
+    SELECT 
+        e.IdE,
+        e.Superficie,
+        b.IdEBien
+    FROM 
+        ESPACE e
+    JOIN 
+        BIEN b ON e.IdERattach = b.IdEBien
+    WHERE 
+        LOWER(e.Designation) LIKE '%terrasse%'
+),
+MaxTerrasse AS (
+    SELECT MAX(Superficie) AS MaxSuperficie
+    FROM Terrasses
+)
+SELECT 
+    t.IdEBien AS IdentifiantBien,
+    t.Superficie AS SuperficieTerrasse
+FROM 
+    Terrasses t
+JOIN 
+    MaxTerrasse m ON t.Superficie = m.MaxSuperficie;
 
 /* Q10 */
 /* Quels sont les propriétaires (identifiant) ayant des biens dans les mêmes 

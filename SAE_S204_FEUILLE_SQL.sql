@@ -64,3 +64,32 @@ WHERE b.IdP IN (
     HAVING COUNT(b2.IdEBien) >= 2
 )
 GROUP BY b.IdP, p.Nom, p.Prénom;
+
+/* Q10 */
+/* Quels sont les propriétaires (identifiant) ayant des biens dans les mêmes 
+catégories que les biens du propriétaire 105.*/
+
+WITH
+T101(CAT105) AS (
+    SELECT CATEGORIE AS CAT105
+    FROM BIEN
+    WHERE IDP = 105
+)
+SELECT IDP, T101.CAT105
+FROM BIEN, T101
+WHERE CATEGORIE = T101.CAT105;
+
+/* Q11 */
+/* Pour les différents biens, donnez l’écart entre leur prix et le prix minimal 
+proposé dans leur catégorie. */
+/* CREATION OF THE VIEW */
+CREATE OR REPLACE VIEW V11 (CATEGORIE, PRIXMIN ) AS
+SELECT CATEGORIE, MIN(PRIX)
+FROM BIEN
+GROUP BY CATEGORIE;
+/* USE OF THE VIEW FOR THE DEMANDED REQUEST */
+SELECT B.IDEBIEN, B.CATEGORIE, B.PRIX, V11.PRIXMIN, B.PRIX - V11.PRIXMIN AS ECART_PRIX
+FROM BIEN B, V11
+WHERE V11.CATEGORIE = B.CATEGORIE
+ORDER BY B.IDEBIEN;
+

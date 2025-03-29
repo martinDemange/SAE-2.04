@@ -88,31 +88,16 @@ HAVING
 /* Quels sont les biens (identifiant) ayant la terrasse (désignation)
 la plus grande ? */
 
---Q9 
-
-WITH Terrasses AS (
-    SELECT 
-        e.IdE,
-        e.Superficie,
-        b.IdEBien
-    FROM 
-        ESPACE e
-    JOIN 
-        BIEN b ON e.IdERattach = b.IdEBien
-    WHERE 
-        LOWER(e.Designation) LIKE '%terrasse%'
-),
-MaxTerrasse AS (
-    SELECT MAX(Superficie) AS MaxSuperficie
-    FROM Terrasses
+WITH T091 AS (
+    SELECT IDE
+    FROM ESPACE
+    WHERE DESIGNATION = 'TERRASSE'
 )
-SELECT 
-    t.IdEBien AS IdentifiantBien,
-    t.Superficie AS SuperficieTerrasse
-FROM 
-    Terrasses t
-JOIN 
-    MaxTerrasse m ON t.Superficie = m.MaxSuperficie;
+SELECT E.IdE
+FROM ESPACE E, T091 
+WHERE IDERATTACH IS NULL
+CONNECT BY E.IDE = PRIOR E.IDERATTACH
+START WITH E.IDE = T091.IDE;
 
 /* Q10 */
 /* Quels sont les propriétaires (identifiant) ayant des biens dans les mêmes 
